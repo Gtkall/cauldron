@@ -80,17 +80,21 @@ function Screen() {
     return (
         <>
             <div className={classes.screen}>
-                <div className="flex flex-row items-center justify-center gap-6 p-4">
-                    <div className="flex-1 flex justify-center items-center min-h-[10rem]">
+                <div className="flex flex-col xl:flex-row items-center justify-center gap-6 p-4">
+                    <div className="flex-1 justify-center items-center min-h-[10rem]">
                         {renderInstructions()}
                     </div>
-                    <div className="flex-1 flex justify-center items-center min-h-[10rem]">
-                        {currentStep >= 1 && currentStep < 2 && (
-                            <Scanner handleScanResult={resultHandler}></Scanner>
-                        )}
+                    <div className="flex justify-center items-center min-h-[10rem]">
+                        {/* {currentStep >= 1 && currentStep < 2 && ( */}
+                        <Scanner handleScanResult={resultHandler}></Scanner>
+                        {/* )} */}
                     </div>
                     {currentStep === 4 && (
-                        <div className="flex justify-center items-center">
+                        <div className="flex flex-col justify-center gap-4 items-center">
+                            <div className="font-bold text-4xl">
+                                COMPATIBILITY:{" "}
+                                {calculateMatch(result1, result2)}%
+                            </div>
                             <button
                                 className="w-44"
                                 type="button"

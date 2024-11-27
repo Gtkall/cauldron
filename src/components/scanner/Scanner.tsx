@@ -1,4 +1,4 @@
-import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+import { Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect, useState } from "react";
 
 type ScannerProps = {
@@ -41,11 +41,10 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
             {scanResult && <p>{scanResult}</p>}
             <div
                 id="reader"
-                style={{
-                    width: "50%",
-                    height: "auto",
-                    filter: "grayscale(100%)",
-                }}
+                className="h-[500px] w-[500px] [filter:grayscale(100%)]"
+                // style={{
+                //     filter: "grayscale(100%)",
+                // }}
             ></div>
         </div>
     );
