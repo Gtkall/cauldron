@@ -26,8 +26,8 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
             scanner.pause(true);
             setTimeout(() => {
                 scanner.resume();
+                handleScanResult(scanResult);
             }, 2000);
-            handleScanResult(scanResult);
         }
 
         function onError(error: any) {

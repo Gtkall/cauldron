@@ -3,15 +3,13 @@ import { useEffect, useState } from "react";
 type ProgressiveTextProps = {
     text: string;
     speed: number;
-    onDone: Function;
-    action: "none" | "input";
+    onDone?: Function;
 };
 
 export const ProgressiveText = ({
     text,
     speed = 50,
     onDone,
-    action,
 }: ProgressiveTextProps) => {
     const [displayedText, setDisplayedText] = useState("");
     const [showCursor, setShowCursor] = useState(true); // Track cursor visibility
@@ -24,9 +22,7 @@ export const ProgressiveText = ({
                 index++;
             } else {
                 console.log("done!");
-                if (action === 'none') {
-                  onDone();
-                }
+                if (onDone) onDone();
                 clearInterval(interval);
             }
         }, speed);
@@ -34,7 +30,7 @@ export const ProgressiveText = ({
         return () => {
             return clearInterval(interval);
         };
-    }, [text, speed, onDone, action]);
+    }, [text, speed, onDone]);
 
     useEffect(() => {
         // Toggle cursor visibility every 500ms

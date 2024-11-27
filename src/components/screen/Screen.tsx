@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { calculateMatch } from "../../util/calculateMatch";
+import { debug } from "../../util/debug";
 import { ProgressiveText } from "../progressiveText/ProgressiveText";
 import { Scanner } from "../scanner/Scanner";
 import classes from "./style.module.css";
+
+const isDebug = true;
 
 function Screen() {
     const instructions: { text: string; action: "none" | "input" }[] = [
@@ -16,30 +20,71 @@ function Screen() {
         { text: "\n >REBOOT?", action: "input" },
     ];
 
-    const [step, setStep] = useState(0);
+    const print = debug(isDebug);
+
+    const nextStep = () => {
+      console.log("Next Step: ", currentStep + 1);
+      setCurrentStep((prev) => prev + 1);
+    }
+
+    const renderInstructions = () => {
+      switch (currentStep) {
+        case 0:
+          return <ProgressiveText onDone={nextStep} text={instructions[currentStep].text} speed={50} />
+          break;
+        case 1:
+          return <ProgressiveText text={instructions[currentStep].text} speed={50} />
+          break;
+        case 2:
+          return <ProgressiveText text={instructions[currentStep].text} speed={50} />
+          break;
+        case 3:
+          return <ProgressiveText onDone={nextStep} text={instructions[currentStep].text} speed={50} />
+          break;
+        case 4:
+          return <ProgressiveText text={instructions[currentStep].text + calculateMatch(result1, result2) + "%" + "\n>Reboot?"} speed={50} />
+          break;
+        default:
+          break;
+      }
+    }
+
+  const resultHandler = (scanResult: string) => {
+    setCurrentStep((prev) => prev + 1);
+      setLoversScanned((prev) => {
+          if (prev === 0) {
+              print(
+                  "Inserting result for LOVER 1. Scanned lovers: " +
+                      loversScanned
+              );
+              setResult1(scanResult);
+              return prev + 1;
+          } else {
+              print(
+                  "Inserting result for LOVER 2. Scanned lovers: " +
+                      loversScanned
+              );
+              setResult2(scanResult);
+          }
+
+          return prev + 1;
+      });
+        console.log("scanned!", scanResult);
+  };
+
+    const [currentStep, setCurrentStep] = useState(0);
     const [loversScanned, setLoversScanned] = useState(0);
+    const [result1, setResult1] = useState("");
+    const [result2, setResult2] = useState("");
 
     return (
         <>
             <div className={classes.screen}>
-                <ProgressiveText
-                    onDone={() => {
-                        console.log(step);
-                        return setStep((prev) => prev + 1);
-                    }}
-                    speed={50}
-                    text={instructions[step].text}
-                    action={instructions[step].action}
-                />
-                {loversScanned < 2 && (
-                    <Scanner
-                        handleScanResult={(scanResult: any) => {
-                            setStep((prev) => prev + 1);
-                            setLoversScanned((prev) => prev + 1);
-                            return console.log("scanned!", scanResult);
-                        }}
-                    ></Scanner>
-                )}
+                <div>{renderInstructions()}</div>
+                {currentStep === 4 && <button onClick={() => window.location.reload()}>[REBOOT]</button>}
+                {currentStep != 4 &&<Scanner
+                    handleScanResult={resultHandler}
+                ></Scanner>}
             </div>
         </>
     );
