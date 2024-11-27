@@ -80,11 +80,27 @@ function Screen() {
     return (
         <>
             <div className={classes.screen}>
-                <div>{renderInstructions()}</div>
-                {currentStep === 4 && <button onClick={() => window.location.reload()}>[REBOOT]</button>}
-                {currentStep != 4 &&<Scanner
-                    handleScanResult={resultHandler}
-                ></Scanner>}
+                <div className="flex flex-row items-center justify-center gap-6 p-4">
+                    <div className="flex-1 flex justify-center items-center min-h-[10rem]">
+                        {renderInstructions()}
+                    </div>
+                    <div className="flex-1 flex justify-center items-center min-h-[10rem]">
+                        {currentStep >= 1 && currentStep < 2 && (
+                            <Scanner handleScanResult={resultHandler}></Scanner>
+                        )}
+                    </div>
+                    {currentStep === 4 && (
+                        <div className="flex justify-center items-center">
+                            <button
+                                className="w-44"
+                                type="button"
+                                onClick={() => window.location.reload()}
+                            >
+                                [REBOOT]
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );

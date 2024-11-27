@@ -1,4 +1,4 @@
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 import { useEffect, useState } from "react";
 
 type ScannerProps = {
@@ -11,10 +11,10 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
         const scanner = new Html5QrcodeScanner(
             "reader",
             {
-                qrbox: {
-                    width: 300,
-                    height: 300,
-                },
+                // qrbox: {
+                //     width: 400,
+                //     height: 400,
+                // },
                 fps: 10,
             },
             false
