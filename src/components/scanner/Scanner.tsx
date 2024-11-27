@@ -6,22 +6,24 @@ type ScannerProps = {
 };
 export const Scanner = ({ handleScanResult }: ScannerProps) => {
     const [scanResult] = useState(null);
+    let scanner: Html5QrcodeScanner;
 
     useEffect(() => {
-        const scanner = new Html5QrcodeScanner(
-            "reader",
-            {
-                // qrbox: {
-                //     width: 400,
-                //     height: 400,
-                // },
-                fps: 10,
-            },
-            false
-        );
+        if(!scanner?.getState()) {
+            scanner = new Html5QrcodeScanner(
+                "reader",
+                {
+                    qrbox: {
+                        width: 300,
+                        height: 300,
+                    },
+                    fps: 10,
+                },
+                false
+            );
 
-        scanner.render(onSuccess, onError);
-
+            scanner.render(onSuccess, onError);
+        }
         function onSuccess(scanResult: string) {
             scanner.pause(true);
             setTimeout(() => {
@@ -41,7 +43,7 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
             {scanResult && <p>{scanResult}</p>}
             <div
                 id="reader"
-                className="h-[500px] w-[500px] [filter:grayscale(100%)]"
+                className="[filter:grayscale(100%)]"
                 // style={{
                 //     filter: "grayscale(100%)",
                 // }}

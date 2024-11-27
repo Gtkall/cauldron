@@ -16,9 +16,6 @@ body {
     overflow: hidden;
     padding: 10vmin;
     width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .screen:before {

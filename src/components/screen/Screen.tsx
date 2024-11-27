@@ -10,7 +10,7 @@ const isDebug = true;
 function Screen() {
     const instructions: { text: string; action: "none" | "input" }[] = [
         {
-            text: "> Initializing Nye Extrapolator Compatibility Capacitor...",
+            text: ">>Initializing Nye Extrapolator \n Compatibility Capacitor...",
             action: "none",
         },
         { text: "\n >Scan LOVER_1", action: "input" },
@@ -42,7 +42,7 @@ function Screen() {
           return <ProgressiveText onDone={nextStep} text={instructions[currentStep].text} speed={50} />
           break;
         case 4:
-          return <ProgressiveText text={instructions[currentStep].text + calculateMatch(result1, result2) + "%" + "\n>Reboot?"} speed={50} />
+          return <ProgressiveText text={instructions[currentStep].text + calculateMatch(result1, result2) + "%" + " \n| Reboot?"} speed={50} />
           break;
         default:
           break;
@@ -80,23 +80,26 @@ function Screen() {
     return (
         <>
             <div className={classes.screen}>
-                <div className="flex flex-col xl:flex-row items-center justify-center gap-6 p-4">
-                    <div className="flex-1 justify-center items-center min-h-[10rem]">
+                <div className="flex flex-col xl:flex-row items-stretch justify-between gap-2">
+                    <div className="flex font-bold text-sm items-center">
                         {renderInstructions()}
                     </div>
-                    <div className="flex justify-center items-center min-h-[10rem]">
+                    {currentStep !== 4 && (
+
+                    <div className="flex justify-center items-center">
                         {/* {currentStep >= 1 && currentStep < 2 && ( */}
                         <Scanner handleScanResult={resultHandler}></Scanner>
                         {/* )} */}
                     </div>
+                    )
+                  }
                     {currentStep === 4 && (
-                        <div className="flex flex-col justify-center gap-4 items-center">
-                            <div className="font-bold text-4xl">
+                        <div className="flex flex-col justify-center gap-8 items-center">
+                            <div className="font-bold text-2xl">
                                 COMPATIBILITY:{" "}
                                 {calculateMatch(result1, result2)}%
                             </div>
                             <button
-                                className="w-44"
                                 type="button"
                                 onClick={() => window.location.reload()}
                             >

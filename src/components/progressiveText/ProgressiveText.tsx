@@ -16,13 +16,18 @@ export const ProgressiveText = ({
 
     useEffect(() => {
         let index = 0;
+        setDisplayedText("")
         const interval = setInterval(() => {
             if (index < text.length - 1) {
                 setDisplayedText((prev) => prev + text[index]);
                 index++;
             } else {
                 console.log("done!");
-                if (onDone) onDone();
+                
+                if (onDone) {
+                    onDone();
+                    setDisplayedText("");
+                }
                 clearInterval(interval);
             }
         }, speed);
