@@ -2,10 +2,10 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect, useState } from "react";
 
 type ScannerProps = {
-    handleScanResult: Function;
+    handleScanResult: (result: string) => void;
 };
 export const Scanner = ({ handleScanResult }: ScannerProps) => {
-    const [scanResult, setScanResult] = useState(null);
+    const [scanResult] = useState(null);
 
     useEffect(() => {
         const scanner = new Html5QrcodeScanner(
@@ -22,7 +22,7 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
 
         scanner.render(onSuccess, onError);
 
-        function onSuccess(scanResult: any) {
+        function onSuccess(scanResult: string) {
             scanner.pause(true);
             setTimeout(() => {
                 scanner.resume();
@@ -30,9 +30,10 @@ export const Scanner = ({ handleScanResult }: ScannerProps) => {
             }, 2000);
         }
 
-        function onError(error: any) {
+        function onError() {
             // console.log(error)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 type ProgressiveTextProps = {
     text: string;
     speed: number;
-    onDone?: Function;
+    onDone?: () => void;
 };
 
 export const ProgressiveText = ({
